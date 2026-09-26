@@ -8,10 +8,6 @@ function AssessmentSummary({ conversation }) {
       <h1 className="page-title" style={{ marginBottom: '8px' }}>
         Assessment Summary
       </h1>
-      <p className="page-subtitle">
-        This overview is meant to support a professional inspection decision,
-        not to replace a mechanic's diagnosis.
-      </p>
 
       <div className="summary-grid">
         <div className="summary-item">

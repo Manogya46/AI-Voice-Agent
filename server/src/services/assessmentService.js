@@ -29,8 +29,7 @@ export const createConversation = async ({
     messages: [
       {
         role: 'assistant',
-        content:
-          'Hi, I am your voice service assistant. Tell me what is happening with your vehicle, and I will ask the questions needed for a safe initial assessment.',
+        content: 'Hello! What seems to be the issue with your vehicle?',
         metadata: { category: 'customer-info', safetyLevel: 'normal' },
       },
     ],

@@ -23,6 +23,12 @@ function AssessmentPage() {
     ?.slice()
     .reverse()
     .find((message) => message.role === 'assistant')?.content;
+  const assessmentStatus =
+    conversation?.status === 'complete'
+      ? { className: 'complete', label: 'Complete' }
+      : conversation?.status === 'in_progress'
+        ? { className: 'in_progress', label: 'In progress' }
+        : { className: 'pending', label: 'Pending' };
 
   const startNewSession = async () => {
     try {
@@ -138,33 +144,19 @@ function AssessmentPage() {
 
   return (
     <div className="app-shell">
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '20px',
-        }}
-      >
-        <div>
-          <span className="eyebrow">CAR SERVICE VOICE ASSISTANT</span>
-          <h1 className="page-title" style={{ marginBottom: '8px' }}>
-            Tell us what your car is doing.
-          </h1>
-          <p className="page-subtitle">Speak naturally. I will guide the initial assessment.</p>
-        </div>
+      <header className="assessment-header">
+        <h1 className="page-title">Tell me what your car is doing?</h1>
         <button className="secondary-button" onClick={startNewSession} disabled={loading || sending}>
           New voice session
         </button>
-      </div>
+      </header>
 
       <nav className="session-nav" aria-label="Assessment pages">
-        <span className="session-nav-label">Current session</span>
         <Link className="session-link active" to={`/assessment/${conversationId}`}>
-          Live voice assessment
+          Voice Assessment
         </Link>
         <Link className="session-link" to={`/assessment/${conversationId}/summary`}>
-          Assessment summary: customer and vehicle details
+          Assessment Summary
         </Link>
       </nav>
 
@@ -176,11 +168,8 @@ function AssessmentPage() {
         <section className="chat-box">
           <div className="voice-stage">
             <div className="voice-stage-copy">
-              <span className="eyebrow">VOICE SERVICE DESK</span>
-              <h2>Tell me what your vehicle is doing.</h2>
               <p>
-                Speak naturally. I will ask for the vehicle details and only the
-                follow-up questions needed for a safe first assessment.
+                Let’s start with a few details about your car, then I’ll ask a couple of questions to get a better idea of the issue.
               </p>
             </div>
             <VoiceButton
@@ -197,19 +186,19 @@ function AssessmentPage() {
         </section>
 
         <aside className="voice-sidebar panel">
-          <span className="eyebrow">ASSESSMENT STATUS</span>
-          <h3>Safety comes first.</h3>
-          <span className={`badge status-badge ${conversation?.status || 'new'}`}>
-            {(conversation?.status || 'new').replace('_', ' ')}
+          <span className="eyebrow">Assessment status</span>
+          <h3>Safety comes first</h3>
+          <span className={`badge status-badge ${assessmentStatus.className}`}>
+            {assessmentStatus.label}
           </span>
           <span className={`badge ${conversation?.safetyLevel || 'normal'}`}>
             {conversation?.safetyLevel || 'normal'}
           </span>
-          <p className="muted">
-            {conversation?.assessmentComplete
-              ? latestAssistantMessage || 'The assessment is complete.'
-              : 'I will ask for the vehicle details and symptoms needed for an initial service assessment.'}
-          </p>
+          {conversation?.assessmentComplete && (
+            <p className="assessment-result">
+              {latestAssistantMessage || 'The assessment is complete.'}
+            </p>
+          )}
         </aside>
       </div>
     </div>

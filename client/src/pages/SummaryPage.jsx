@@ -46,12 +46,11 @@ function SummaryPage() {
   return (
     <div className="app-shell">
       <nav className="session-nav" aria-label="Assessment pages">
-        <span className="session-nav-label">Current session</span>
         <Link className="session-link" to={`/assessment/${conversationId}`}>
-          Live voice assessment
+          Voice Assessment
         </Link>
         <Link className="session-link active" to={`/assessment/${conversationId}/summary`}>
-          Assessment summary: customer and vehicle details
+          Assessment Summary
         </Link>
       </nav>
       <AssessmentSummary conversation={conversation} />
